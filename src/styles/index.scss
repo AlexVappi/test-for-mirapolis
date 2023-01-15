@@ -1,7 +1,124 @@
-@import '_mixins.scss';
-@import '_reset.scss';
-@import '_fonts.scss';
-@import '_vars.scss';
-@import '_header.scss';
-@import '_main.scss';
-@import '_footer.scss';
+@import "reset";
+@import "vars";
+@import "fonts";
+
+body {
+	font-family: "Roboto", sans-serif;
+}
+
+.container {
+	border: 2px solid $color;
+	border-radius: 10px;
+	padding: 20px 30px;
+	position: absolute;
+	left: 50%;
+	top: 100px;
+	transform: translateX(-50%);
+	min-width: 250px;
+	width: auto;
+}
+
+.tree {
+	padding-left: $offset;
+	position: relative;
+
+	&-item {
+		margin-left: -10px;
+		margin-bottom: 15px;
+		position: relative;
+
+		&::after {
+			content: "";
+			width: $offset - 13;
+			height: 0;
+			position: absolute;
+			left: -$offset + 9;
+			bottom: 10px;
+			border-bottom: 2px dashed $color;
+		}
+	}
+
+	&-icon {
+		display: inline-block;
+		width: 20px;
+		height: 20px;
+		vertical-align: -3px;
+		margin-right: 5px;
+		background-image: url("../images/file.svg");
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: contain;
+	}
+
+	&-folder {
+		position: relative;
+
+		&:last-child {
+			&::after {
+				content: "";
+				display: block;
+				width: 10px;
+				height: 100%;
+				background-color: #fff;
+				position: absolute;
+				left: -$offset - 5;
+				top: 11px;
+				z-index: 1;
+			}
+		}
+
+		&__icon {
+			background-image: url("../images/folder_close.svg");
+
+			._open > .tree-item & {
+				background-image: url("../images/folder_open.svg");
+			}
+		}
+
+		&__btn {
+			width: 14px;
+			height: 14px;
+			box-sizing: border-box;
+			border: 2px solid #000;
+			background-color: #fff;
+			position: absolute;
+			left: -$offset - 8;
+			top: 3px;
+			z-index: 2;
+			font-size: 14px;
+			line-height: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+
+			&::after {
+				content: "+";
+
+				._open > & {
+					content: "-";
+					font-size: 19px;
+					padding-bottom: 1px;
+				}
+			}
+		}
+
+		&__body {
+			display: none;
+
+			._open > & {
+				display: block;
+			}
+		}
+	}
+
+	&::after {
+		content: "";
+		width: 0;
+		height: 100%;
+		position: absolute;
+		left: -2px;
+		top: -13px;
+		border-left: 2px dashed $color;
+	}
+}

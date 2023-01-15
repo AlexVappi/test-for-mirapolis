@@ -1,0 +1,51 @@
+extends ../layouts/layout
+
+block variables
+	-var description = '';
+
+
+block title
+	title Test for Mirapolis
+block description
+	meta(name="description", content=description)
+
+prepend css
+
+block header
+
+prepend body
+
+block content
+	.wrapper
+		.container
+			ul.tree.tree-body
+				li.tree-folder._open
+					+folder("Folder 1")
+					ul.tree.tree-folder__body
+						li.tree-folder._open
+							+folder("Subfolder 1")
+							ul.tree.tree-folder__body
+								+file("File 1")
+						li.tree-folder._open
+							+folder("Subfolder 2")
+							ul.tree.tree-folder__body
+								+file("File 1")
+								+file("File 2")
+				li.tree-folder
+					+folder("Folder 2")
+					ul.tree.tree-folder__body
+						li.tree-folder
+							+folder("Subfolder 1")
+							ul.tree.tree-folder__body
+								+file("File 1")
+						li.tree-folder
+							+folder("Subfolder 2")
+							ul.tree.tree-folder__body
+								+file("File 1")
+				+file("File 1")
+
+
+
+block footer
+
+block scripts
