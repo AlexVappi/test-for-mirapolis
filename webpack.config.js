@@ -3,7 +3,7 @@ const fs = require("fs");
 const HTMLPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCSSPlugin = require("mini-css-extract-plugin");
-const SVGSpritemapPlugin = require("svg-spritemap-webpack-plugin");
+// const SVGSpritemapPlugin = require("svg-spritemap-webpack-plugin");
 
 let mode = "development";
 
@@ -46,12 +46,15 @@ module.exports = {
 			},
 			{
 				test: /\.(png|svg|jpg|jpeg|gif)$/i,
+				generator: {
+					filename: "images/[name][ext]",
+				},
 				type: "asset/resource",
 			},
 			{
 				test: /\.(eot|ttf|otf|woff|woff2)$/i,
 				generator: {
-					filename: "assets/fonts/[name][ext]",
+					filename: "fonts/[name][ext]",
 				},
 				type: "asset/resource",
 			},
@@ -66,26 +69,26 @@ module.exports = {
 		new CopyWebpackPlugin({
 			patterns: [{ from: "./images/", to: "images", noErrorOnMissing: true }],
 		}),
-		new SVGSpritemapPlugin("./src/svg/**/*.svg", {
-			output: {
-				svg: {
-					sizes: false,
-				},
-				svg4everybody: true,
-				filename: "sprite.svg",
-			},
-			sprite: {
-				generate: {
-					use: true,
-					view: "-fragment",
-					symbol: true,
-				},
-			},
-			styles: {
-				// Specifiy that we want to use URLs with fragment identifiers in a styles file as well
-				format: "fragment",
-			},
-		}),
+		// new SVGSpritemapPlugin("./src/svg/**/*.svg", {
+		// 	output: {
+		// 		svg: {
+		// 			sizes: false,
+		// 		},
+		// 		svg4everybody: true,
+		// 		filename: "sprite.svg",
+		// 	},
+		// 	sprite: {
+		// 		generate: {
+		// 			use: true,
+		// 			view: "-fragment",
+		// 			symbol: true,
+		// 		},
+		// 	},
+		// 	styles: {
+		// 		// Specifiy that we want to use URLs with fragment identifiers in a styles file as well
+		// 		format: "fragment",
+		// 	},
+		// }),
 
 		...PAGES.map(
 			(page) =>
@@ -99,7 +102,7 @@ module.exports = {
 		),
 
 		new MiniCSSPlugin({
-			filename: "[name]_[contenthash].css",
+			filename: "css/[name]_[contenthash].css",
 		}),
 	],
 	resolve: {
@@ -109,13 +112,13 @@ module.exports = {
 		minimize: false,
 	},
 	output: {
-		filename: "[name]_[contenthash].js",
+		filename: "js/[name]_[contenthash].js",
 		path: path.resolve(__dirname, "dist"),
 		// assetModuleFilename: "assets/[name]_[hash][ext][query]",
 		assetModuleFilename: "[name][ext]",
 		clean: true,
 	},
-	devtool: mode === "development" ? "source-map" : "",
+	devtool: mode === "development" ? "source-map" : false,
 	devServer: {
 		static: path.join(__dirname, "dist"),
 		compress: true,
